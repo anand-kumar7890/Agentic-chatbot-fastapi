@@ -1,12 +1,12 @@
 # if you dont use pipenv uncomment the following:
 from dotenv import load_dotenv
-load_dotenv()
+
 
 #Step1: Setup Pydantic Model (Schema Validation)
 from pydantic import BaseModel
 from typing import List
 
-
+load_dotenv()
 class RequestState(BaseModel):
     model_name: str
     model_provider: str
