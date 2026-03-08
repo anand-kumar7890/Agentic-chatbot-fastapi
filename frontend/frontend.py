@@ -2,13 +2,15 @@ import streamlit as st
 import requests
 from dotenv import load_dotenv
 import os
+from pathlib import Path
 load_dotenv()
 
 st.set_page_config(page_title="LangGraph AI Agent", layout="wide")
 
 # ---------------- LOAD CSS ----------------
 def load_css():
-    with open("static/styles.css") as f:
+    css = Path(__file__).parent / "styles.css"
+    with open(css) as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 load_css()
