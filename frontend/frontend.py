@@ -33,41 +33,31 @@ left, right = st.columns([1.8, 1])
 
 # -------- LEFT PANEL --------
 with left:
-
-    st.markdown('<div class="chat-section">', unsafe_allow_html=True)
-
     st.markdown("### 🤖 Chat")
 
     # -------- CHAT HISTORY --------
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
-    chat_container = st.container()
-
-    with chat_container:
-        st.markdown('<div class="response-panel">', unsafe_allow_html=True)
-
-        for msg in st.session_state.messages:
-            if msg["role"] == "user":
-                st.markdown(
-                    f"""
-                    <div class="user-msg">
-                        🧑 {msg["content"]}
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
-            else:
-                st.markdown(
-                    f"""
-                    <div class="bot-msg">
-                        🤖 {msg["content"]}
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
-
-        st.markdown('</div>', unsafe_allow_html=True)
+    for msg in st.session_state.messages:
+        if msg["role"] == "user":
+            st.markdown(
+                f"""
+                <div class="user-msg">
+                    🧑 {msg["content"]}
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+        else:
+            st.markdown(
+                f"""
+                <div class="bot-msg">
+                    🤖 {msg["content"]}
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
 
 # ---------------- CONTROL SIDE ----------------
 with right:
