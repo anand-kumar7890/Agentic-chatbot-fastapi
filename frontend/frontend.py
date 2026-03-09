@@ -67,11 +67,10 @@ with right:
     system_prompt = "You are a helpful AI assistant."
 
     MODEL_NAMES_GROQ = [
-        "llama-3.3-70b-versatile",
-        "mixtral-8x7b-32768"
+        "llama-3.3-70b-versatile"
     ]
 
-    provider = st.radio("Select Provider:", ("Groq", "OpenAI"))
+    provider = st.radio("Select Provider:", ("Groq"))
 
     if provider == "Groq":
         selected_model = st.selectbox("Select Groq Model:", MODEL_NAMES_GROQ)
