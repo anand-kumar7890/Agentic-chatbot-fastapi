@@ -1,86 +1,23 @@
-/* ================= PAGE BACKGROUND ================= */
-
-[data-testid="stAppViewContainer"] {
-    background: linear-gradient(135deg, #e0f2fe, #bae6fd, #7dd3fc);
-    background-attachment: fixed;
-}
-
-/* subtle overlay glow */
-
-[data-testid="stAppViewContainer"]::before {
-    content: "";
-    position: fixed;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(0,0,0,0.3), transparent 70%);
-    top: -200px;
-    left: -200px;
-    z-index: 0;
-}
-
-/* ================= CONTROL PANEL ================= */
-
-.control-panel {
-    background: rgba(255,255,255,0.05);
-    padding: 25px;
-    border-radius: 20px;
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(255,255,255,0.15);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
-}
-
-/* ================= TEXT AREAS ================= */
-
-.stTextArea textarea {
-    border-radius: 14px;
-    background: rgba(255,255,255,0.07);
-    color: rgb(15,14,14);
-    border: 1px solid rgba(255,255,255,0.3);
-    padding: 10px;
-}
-
-.stTextArea textarea:focus {
-    border: 1px solid #7f5af0;
-    box-shadow: 0 0 10px rgba(127,90,240,0.6);
-}
-
-/* ================= BUTTON ================= */
-
-.stButton > button {
-    background: linear-gradient(135deg, #7f5af0, #00c6ff);
-    color: white;
-    border-radius: 14px;
-    height: 48px;
-    font-weight: 600;
-    border: none;
-    transition: 0.3s ease;
-}
-
-.stButton > button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 25px rgba(127,90,240,0.4);
-}
-
-/* ================= HEADINGS ================= */
-
-h1, h2, h3 {
-    color: #ffffff;
-    font-weight: 600;
-}
-
-/* ================= CHAT ================= */
+/* ================= CHAT PANEL ================= */
 
 .chat-container{
-    height:75vh;
+    height:70vh;
     overflow-y:auto;
     display:flex;
     flex-direction:column;
-    gap:10px;
-    padding-right:10px;
+    gap:12px;
+    padding:20px;
+
+    background:rgba(0,0,0,0.55);
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,0.15);
+
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+
     scroll-behavior:smooth;
 }
 
-/* user message */
+/* USER MESSAGE */
 
 .user-msg{
     background:#cfe8b4;
@@ -88,16 +25,18 @@ h1, h2, h3 {
     border-radius:12px;
     margin-left:auto;
     max-width:70%;
+    color:#000;
 }
 
-/* bot message */
+/* AI MESSAGE */
 
 .bot-msg{
-    background:#ffffff;
+    background:#111111;
     padding:12px 16px;
     border-radius:12px;
     max-width:70%;
-    box-shadow:0 3px 10px rgba(0,0,0,0.1);
+    color:#ffffff;
+    box-shadow:0 4px 12px rgba(0,0,0,0.4);
 }
 
 /* avatars */

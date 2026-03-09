@@ -24,15 +24,15 @@ setTimeout(() => {
     if(chat){
         chat.scrollTop = chat.scrollHeight;
     }
-}, 200);
+}, 300);
 </script>
 """, unsafe_allow_html=True)
-
 st.title("LangGraph AI Agent")
 
 # ----------- CREATE COLUMNS -------------
 left, right = st.columns([1.8, 1])
 
+# -------- LEFT PANEL --------
 # -------- LEFT PANEL --------
 with left:
     st.markdown("### 🤖 Chat")
