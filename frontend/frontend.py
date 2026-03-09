@@ -64,6 +64,7 @@ with right:
 
     st.markdown("### ⚙️ Agent Configuration")
 
+    system_prompt = "You are a helpful AI assistant."
 
     MODEL_NAMES_GROQ = [
         "llama-3.3-70b-versatile",
@@ -95,6 +96,8 @@ API_URL = os.getenv(
 )
 
 st.write("Using API:", API_URL)
+
+system_prompt = "You are a helpful AI assistant."
 
 if ask_button and user_query.strip():
 
