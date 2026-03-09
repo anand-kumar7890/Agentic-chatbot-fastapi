@@ -6,6 +6,7 @@
 }
 
 /* subtle overlay glow */
+
 [data-testid="stAppViewContainer"]::before {
     content: "";
     position: fixed;
@@ -98,6 +99,8 @@ h1, h2, h3 {
     max-width:70%;
     box-shadow:0 3px 10px rgba(0,0,0,0.1);
 }
+
+/* avatars */
 
 .user-msg::before{
 content:"🧑 ";

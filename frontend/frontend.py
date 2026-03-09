@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 import os
 from pathlib import Path
 
-
 load_dotenv()
 
 st.set_page_config(page_title="LangGraph AI Agent", layout="wide")
@@ -17,12 +16,15 @@ def load_css():
 
 load_css()
 
+# auto scroll script
 st.markdown("""
 <script>
-const chat = window.parent.document.querySelector('#chat-container');
-if(chat){
-    chat.scrollTop = chat.scrollHeight;
-}
+setTimeout(() => {
+    const chat = window.parent.document.querySelector('#chat-container');
+    if(chat){
+        chat.scrollTop = chat.scrollHeight;
+    }
+}, 200);
 </script>
 """, unsafe_allow_html=True)
 
@@ -35,34 +37,23 @@ left, right = st.columns([1.8, 1])
 with left:
     st.markdown("### 🤖 Chat")
 
-    # -------- CHAT HISTORY --------
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
-    # scrollable container start
     st.markdown('<div id="chat-container" class="chat-container">', unsafe_allow_html=True)
 
     for msg in st.session_state.messages:
         if msg["role"] == "user":
             st.markdown(
-                f"""
-                <div class="user-msg">
-                    🧑 {msg["content"]}
-                </div>
-                """,
+                f'<div class="user-msg">{msg["content"]}</div>',
                 unsafe_allow_html=True
             )
         else:
             st.markdown(
-                f"""
-                <div class="bot-msg">
-                    🤖 {msg["content"]}
-                </div>
-                """,
+                f'<div class="bot-msg">{msg["content"]}</div>',
                 unsafe_allow_html=True
             )
 
-    # scrollable container end
     st.markdown('</div>', unsafe_allow_html=True)
 
 # ---------------- CONTROL SIDE ----------------
@@ -76,7 +67,7 @@ with right:
         "llama-3.3-70b-versatile"
     ]
 
-    provider = st.radio("Select Provider:", ("Groq"))
+    provider = st.radio("Select Provider:", ("Groq",))
 
     if provider == "Groq":
         selected_model = st.selectbox("Select Groq Model:", MODEL_NAMES_GROQ)
@@ -91,9 +82,6 @@ with right:
 
     ask_button = st.button("🚀 Ask Agent")
 
-    st.markdown('</div>', unsafe_allow_html=True)
-
-
 # ---------------- BACKEND CALL ----------------
 API_URL = os.getenv(
     "API_URL",
@@ -102,11 +90,8 @@ API_URL = os.getenv(
 
 st.write("Using API:", API_URL)
 
-system_prompt = "You are a helpful AI assistant."
-
 if ask_button and user_query.strip():
 
-    # Add user message to chat history
     st.session_state.messages.append({
         "role": "user",
         "content": user_query
@@ -138,7 +123,6 @@ if ask_button and user_query.strip():
     else:
         agent_reply = f"Backend Error: {response.status_code}"
 
-    # Add AI response to chat history
     st.session_state.messages.append({
         "role": "assistant",
         "content": agent_reply
