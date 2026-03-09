@@ -64,7 +64,6 @@ with right:
 
     st.markdown("### ⚙️ Agent Configuration")
 
-    system_prompt = "You are a helpful AI assistant."
 
     MODEL_NAMES_GROQ = [
         "llama-3.3-70b-versatile",
