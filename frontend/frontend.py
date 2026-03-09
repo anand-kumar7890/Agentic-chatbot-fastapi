@@ -110,10 +110,10 @@ if ask_button and user_query.strip():
     if response.status_code == 200:
         response_data = response.json()
 
-        if "error" in response_data:
+        if isinstance(response_data, dict) and "error" in response_data:
             agent_reply = response_data["error"]
         else:
-            agent_reply = response_data
+            agent_reply = str(response_data)
 
     else:
         agent_reply = f"Backend Error: {response.status_code}"
@@ -124,3 +124,6 @@ if ask_button and user_query.strip():
     })
 
     st.rerun()
+
+
+ 
