@@ -153,6 +153,3 @@ if ask_button and user_query.strip():
 
     st.rerun()
 
-if st.button("🧹 Clear Chat"):
-    st.session_state.messages = []
-    st.rerun()
