@@ -33,28 +33,23 @@ st.title("LangGraph AI Agent")
 left, right = st.columns([1.8, 1])
 
 # -------- LEFT PANEL --------
-# -------- LEFT PANEL --------
 with left:
     st.markdown("### 🤖 Chat")
 
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
-    st.markdown('<div id="chat-container" class="chat-container">', unsafe_allow_html=True)
+    chat_html = '<div id="chat-container" class="chat-container">'
 
     for msg in st.session_state.messages:
         if msg["role"] == "user":
-            st.markdown(
-                f'<div class="user-msg">{msg["content"]}</div>',
-                unsafe_allow_html=True
-            )
+            chat_html += f'<div class="user-msg">{msg["content"]}</div>'
         else:
-            st.markdown(
-                f'<div class="bot-msg">{msg["content"]}</div>',
-                unsafe_allow_html=True
-            )
+            chat_html += f'<div class="bot-msg">{msg["content"]}</div>'
 
-    st.markdown('</div>', unsafe_allow_html=True)
+    chat_html += "</div>"
+
+    st.markdown(chat_html, unsafe_allow_html=True)
 
 # ---------------- CONTROL SIDE ----------------
 with right:
