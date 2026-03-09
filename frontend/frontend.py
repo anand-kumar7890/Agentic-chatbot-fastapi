@@ -75,7 +75,7 @@ with right:
     
 
 # ---------------- BACKEND CALL ----------------
-API_URL = os.getenv("API_URL")
+API_URL = os.getenv("API_URL", "http://127.0.0.1:9999/chat")
 
 if ask_button:
     if user_query.strip():
