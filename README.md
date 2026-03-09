@@ -72,7 +72,7 @@ TAVILY_API_KEY=your_tavily_key
 ## 🛠 Local Setup
 
 ### 1️⃣ Clone Repository
-git clone https://github.com/your-username/your-repo.git
+git clone https://github.com/anand-kumar7890/Agentic-chatbot-fastapi.git
 
 cd agentic-chatbot
 
