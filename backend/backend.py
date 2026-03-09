@@ -1,6 +1,6 @@
 # if you dont use pipenv uncomment the following:
 from dotenv import load_dotenv
-
+from fastapi.middleware.cors import CORSMiddleware
 
 #Step1: Setup Pydantic Model (Schema Validation)
 from pydantic import BaseModel
@@ -42,7 +42,22 @@ def chat_endpoint(request: RequestState):
     response=get_response_from_ai_agent(llm_id, query, allow_search, system_prompt, provider)
     return response
 
+@app.get("/")
+def health():
+    return {"status": "ok"}
+
+
+
 #Step3: Run app & Explore Swagger UI Docs
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=9999)
+#if __name__ == "__main__":
+    #import uvicorn
+    #uvicorn.run(app, host="127.0.0.1", port=9999)
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)

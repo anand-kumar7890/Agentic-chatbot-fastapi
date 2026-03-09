@@ -3,6 +3,8 @@ import requests
 from dotenv import load_dotenv
 import os
 from pathlib import Path
+
+
 load_dotenv()
 
 st.set_page_config(page_title="LangGraph AI Agent", layout="wide")
@@ -29,8 +31,6 @@ st.title("LangGraph AI Agent")
 # ----------- CREATE COLUMNS -------------
 left, right = st.columns([1.6, 1])
 
-# ---------------- STATIC RESPONSE SIDE ----------------
-left, right = st.columns([1.6, 1])
 
 # -------- LEFT PANEL --------
 with left:
@@ -75,7 +75,12 @@ with right:
     
 
 # ---------------- BACKEND CALL ----------------
-API_URL = os.getenv("API_URL", "http://127.0.0.1:9999/chat")
+API_URL = os.getenv(
+    "API_URL",
+    "https://agentic-chatbot-backend.onrender.com/chat"
+)
+
+st.write("Using API:", API_URL)
 
 if ask_button:
     if user_query.strip():
@@ -89,7 +94,11 @@ if ask_button:
         }
 
         with st.spinner("Thinking..."):
-            response = requests.post(API_URL, json=payload)
+            try:
+                response = requests.post(API_URL, json=payload, timeout=120)
+            except Exception as e:
+                st.error("Backend connection failed.")
+                st.stop()
 
         if response.status_code == 200:
             response_data = response.json()
@@ -106,3 +115,5 @@ if ask_button:
             f'<div class="response-panel">{st.session_state.agent_output}</div>',
             unsafe_allow_html=True
         )
+
+
