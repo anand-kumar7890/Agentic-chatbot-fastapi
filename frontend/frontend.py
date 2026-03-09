@@ -19,9 +19,9 @@ load_css()
 
 st.markdown("""
 <script>
-const panel = window.parent.document.querySelector('.response-panel');
-if(panel){
-    panel.scrollTop = panel.scrollHeight;
+const chat = window.parent.document.querySelector('#chat-container');
+if(chat){
+    chat.scrollTop = chat.scrollHeight;
 }
 </script>
 """, unsafe_allow_html=True)
@@ -38,6 +38,9 @@ with left:
     # -------- CHAT HISTORY --------
     if "messages" not in st.session_state:
         st.session_state.messages = []
+
+    # scrollable container start
+    st.markdown('<div id="chat-container" class="chat-container">', unsafe_allow_html=True)
 
     for msg in st.session_state.messages:
         if msg["role"] == "user":
@@ -58,6 +61,9 @@ with left:
                 """,
                 unsafe_allow_html=True
             )
+
+    # scrollable container end
+    st.markdown('</div>', unsafe_allow_html=True)
 
 # ---------------- CONTROL SIDE ----------------
 with right:
@@ -139,4 +145,3 @@ if ask_button and user_query.strip():
     })
 
     st.rerun()
-

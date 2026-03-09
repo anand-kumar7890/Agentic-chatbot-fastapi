@@ -5,18 +5,17 @@
     background-attachment: fixed;
 }
 
-/* Optional: subtle overlay glow */
+/* subtle overlay glow */
 [data-testid="stAppViewContainer"]::before {
     content: "";
     position: fixed;
     width: 600px;
     height: 600px;
-    background: radial-gradient(circle, rgba(0, 0, 0, 0.3), transparent 70%);
+    background: radial-gradient(circle, rgba(0,0,0,0.3), transparent 70%);
     top: -200px;
     left: -200px;
     z-index: 0;
 }
-
 
 /* ================= CONTROL PANEL ================= */
 
@@ -34,7 +33,7 @@
 .stTextArea textarea {
     border-radius: 14px;
     background: rgba(255,255,255,0.07);
-    color: rgb(15, 14, 14);
+    color: rgb(15,14,14);
     border: 1px solid rgba(255,255,255,0.3);
     padding: 10px;
 }
@@ -68,52 +67,42 @@ h1, h2, h3 {
     font-weight: 600;
 }
 
-
-.chat-bubble{
-    background:white;
-    padding:15px;
-    border-radius:12px;
-    line-height:1.6;
-    font-size:15px;
-    box-shadow:0 4px 12px rgba(0,0,0,0.08);
-}
-
-.fade-in{
-    animation:fadeIn 0.4s ease-in-out;
-}
-
-@keyframes fadeIn{
-    from{opacity:0;transform:translateY(10px);}
-    to{opacity:1;transform:translateY(0);}
-}
-
-button[kind="primary"]{
-    background:linear-gradient(135deg,#5f9cff,#4bc0ff);
-    border:none;
-    border-radius:10px;
-    color:white;
-}
-
-.user-msg{
-background:#cfe8b4;
-padding:12px 16px;
-border-radius:12px;
-margin:10px 0;
-margin-left:auto;
-max-width:70%;
-}
-
-.bot-msg{
-background:#ffffff;
-padding:12px 16px;
-border-radius:12px;
-margin:10px 0;
-max-width:70%;
-box-shadow:0 3px 10px rgba(0,0,0,0.1);
-}
+/* ================= CHAT ================= */
 
 .chat-container{
-height:75vh;
-overflow-y:auto;
-padding-right:10px;
+    height:75vh;
+    overflow-y:auto;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    padding-right:10px;
+    scroll-behavior:smooth;
+}
+
+/* user message */
+
+.user-msg{
+    background:#cfe8b4;
+    padding:12px 16px;
+    border-radius:12px;
+    margin-left:auto;
+    max-width:70%;
+}
+
+/* bot message */
+
+.bot-msg{
+    background:#ffffff;
+    padding:12px 16px;
+    border-radius:12px;
+    max-width:70%;
+    box-shadow:0 3px 10px rgba(0,0,0,0.1);
+}
+
+.user-msg::before{
+content:"🧑 ";
+}
+
+.bot-msg::before{
+content:"🤖 ";
 }
