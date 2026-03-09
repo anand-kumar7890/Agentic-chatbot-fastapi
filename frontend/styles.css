@@ -93,3 +93,23 @@ button[kind="primary"]{
     border-radius:10px;
     color:white;
 }
+
+.user-msg{
+background:#DCF8C6;
+padding:12px;
+border-radius:12px;
+margin:8px 0;
+margin-left:auto;
+max-width:70%;
+font-size:15px;
+}
+
+.bot-msg{
+background:white;
+padding:12px;
+border-radius:12px;
+margin:8px 0;
+max-width:70%;
+font-size:15px;
+box-shadow:0 3px 8px rgba(0,0,0,0.08);
+}
