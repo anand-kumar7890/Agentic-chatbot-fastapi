@@ -29,36 +29,61 @@ if(panel){
 st.title("LangGraph AI Agent")
 
 # ----------- CREATE COLUMNS -------------
-left, right = st.columns([1.6, 1])
-
+left, right = st.columns([1.8, 1])
 
 # -------- LEFT PANEL --------
 with left:
 
-    st.markdown('<div class="response-wrapper">', unsafe_allow_html=True)
+    st.markdown('<div class="chat-section">', unsafe_allow_html=True)
 
-    if "agent_output" not in st.session_state:
-        st.session_state.agent_output = "Response will appear here..."
+    st.markdown("### 🤖 Chat")
 
-    response_container = st.empty()
+    # -------- CHAT HISTORY --------
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
 
-    response_container.markdown(
-        f'<div class="response-panel fade-in"><div class="typing">{st.session_state.agent_output}</div></div>',
-        unsafe_allow_html=True
-    )
+    chat_container = st.container()
 
-    st.markdown('</div>', unsafe_allow_html=True)
+    with chat_container:
+        st.markdown('<div class="response-panel">', unsafe_allow_html=True)
+
+        for msg in st.session_state.messages:
+            if msg["role"] == "user":
+                st.markdown(
+                    f"""
+                    <div class="user-msg">
+                        🧑 {msg["content"]}
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
+            else:
+                st.markdown(
+                    f"""
+                    <div class="bot-msg">
+                        🤖 {msg["content"]}
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
+
+        st.markdown('</div>', unsafe_allow_html=True)
 
 # ---------------- CONTROL SIDE ----------------
 with right:
 
+    st.markdown("### ⚙️ Agent Configuration")
 
-    st.subheader("Configuration")
+    system_prompt = st.text_area(
+        "Define your AI Agent:",
+        height=80,
+        placeholder="Example: You are a helpful AI coding assistant..."
+    )
 
-    system_prompt = st.text_area("Define your AI Agent:", height=80)
-
-    MODEL_NAMES_GROQ = ["llama-3.3-70b-versatile", "mixtral-8x7b-32768"]
-    
+    MODEL_NAMES_GROQ = [
+        "llama-3.3-70b-versatile",
+        "mixtral-8x7b-32768"
+    ]
 
     provider = st.radio("Select Provider:", ("Groq", "OpenAI"))
 
@@ -67,12 +92,16 @@ with right:
 
     allow_web_search = st.checkbox("Enable Web Search")
 
-    user_query = st.text_area("Enter your query:", height=150)
+    user_query = st.text_area(
+        "💬 Enter your query",
+        height=150,
+        placeholder="Ask your AI agent something..."
+    )
 
-    ask_button = st.button("Ask Agent")
+    ask_button = st.button("🚀 Ask Agent")
 
     st.markdown('</div>', unsafe_allow_html=True)
-    
+
 
 # ---------------- BACKEND CALL ----------------
 API_URL = os.getenv(
@@ -82,38 +111,48 @@ API_URL = os.getenv(
 
 st.write("Using API:", API_URL)
 
-if ask_button:
-    if user_query.strip():
+if ask_button and user_query.strip():
 
-        payload = {
-            "model_name": selected_model,
-            "model_provider": provider,
-            "system_prompt": system_prompt,
-            "messages": [user_query],
-            "allow_search": allow_web_search
-        }
+    # Add user message to chat history
+    st.session_state.messages.append({
+        "role": "user",
+        "content": user_query
+    })
 
-        with st.spinner("Thinking..."):
-            try:
-                response = requests.post(API_URL, json=payload, timeout=120)
-            except Exception as e:
-                st.error("Backend connection failed.")
-                st.stop()
+    payload = {
+        "model_name": selected_model,
+        "model_provider": provider,
+        "system_prompt": system_prompt,
+        "messages": [user_query],
+        "allow_search": allow_web_search
+    }
 
-        if response.status_code == 200:
-            response_data = response.json()
+    with st.spinner("🤖 Agent is thinking..."):
+        try:
+            response = requests.post(API_URL, json=payload, timeout=120)
+        except Exception:
+            st.error("Backend connection failed.")
+            st.stop()
 
-            if "error" in response_data:
-                st.session_state.agent_output = response_data["error"]
-            else:
-                st.session_state.agent_output = response_data
+    if response.status_code == 200:
+        response_data = response.json()
 
+        if "error" in response_data:
+            agent_reply = response_data["error"]
         else:
-            st.session_state.agent_output = f"Backend Error: {response.status_code}"
+            agent_reply = response_data
 
-        response_container.markdown(
-            f'<div class="response-panel">{st.session_state.agent_output}</div>',
-            unsafe_allow_html=True
-        )
+    else:
+        agent_reply = f"Backend Error: {response.status_code}"
 
+    # Add AI response to chat history
+    st.session_state.messages.append({
+        "role": "assistant",
+        "content": agent_reply
+    })
 
+    st.rerun()
+
+if st.button("🧹 Clear Chat"):
+    st.session_state.messages = []
+    st.rerun()
